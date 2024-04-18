@@ -46,4 +46,16 @@ router.get("/:id", asyncErrorHandler(async (req, res) => {
     }
 }));
 
+// Route for deleting a blog by ID
+router.delete("/:id", asyncErrorHandler(async (req, res) => {
+    try {
+        const deletedBlog = await Blog.findByIdAndDelete(req.params.id);
+        if (!deletedBlog) return res.status(404).json({ message: "Blog not found" });
+
+        res.json({ message: "Blog deleted successfully!" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}));
+
 module.exports = router;
